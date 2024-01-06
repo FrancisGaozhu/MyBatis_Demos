@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.TopicMapper">
+
+    <resultMap id="topic_account_1" type="gaozhu.francis.pojo.Topic">
+        <id property="id" column="t_id"/>
+        <result property="title" column="t_title"/>
+        <result property="content" column="t_content"/>
+        <result property="time" column="t_time"/>
+        <result property="account.id" column="a_id"/>
+        <result property="account.userName" column="a_user_name"/>
+        <result property="account.password" column="a_password"/>
+        <result property="account.age" column="a_age"/>
+        <result property="account.sex" column="a_sex"/>
+        <result property="account.phone" column="a_phone"/>
+        <result property="account.registerDate" column="a_register_date"/>
+    </resultMap>
+    <select id="selectTopicsWithAccount1" resultMap="topic_account_1">
+        SELECT top1.t_id,
+               top1.t_title,
+               top1.t_content,
+               top1.t_time,
+               acc1.a_id,
+               acc1.a_user_name,
+               acc1.a_password,
+               acc1.a_age,
+               acc1.a_sex,
+               acc1.a_phone,
+               acc1.a_register_date
+        FROM t_topic top1
+        LEFT JOIN t_account acc1 ON top1.t_account_id = acc1.a_id;
+    </select>
+
+    <resultMap id="topic_account_2" type="gaozhu.francis.pojo.Topic">
+        <id property="id" column="t_id"/>
+        <result property="title" column="t_title"/>
+        <result property="content" column="t_content"/>
+        <result property="time" column="t_time"/>
+        <association property="account" javaType="gaozhu.francis.pojo.Account">
+            <id property="id" column="a_id"/>
+            <result property="userName" column="a_user_name"/>
+            <result property="password" column="a_password"/>
+            <result property="age" column="a_age"/>
+            <result property="sex" column="a_sex"/>
+            <result property="phone" column="a_phone"/>
+            <result property="registerDate" column="a_register_date"/>
+        </association>
+    </resultMap>
+    <select id="selectTopicsWithAccount2" resultMap="topic_account_2">
+        SELECT top1.t_id,
+               top1.t_title,
+               top1.t_content,
+               top1.t_time,
+               acc1.a_id,
+               acc1.a_user_name,
+               acc1.a_password,
+               acc1.a_age,
+               acc1.a_sex,
+               acc1.a_phone,
+               acc1.a_register_date
+        FROM t_topic top1
+        LEFT JOIN t_account acc1 ON top1.t_account_id = acc1.a_id;
+    </select>
+
+    <resultMap id="topic_account_3" type="gaozhu.francis.pojo.Topic">
+        <id property="id" column="t_id"/>
+        <result property="title" column="t_title"/>
+        <result property="content" column="t_content"/>
+        <result property="time" column="t_time"/>
+        <association property="account" select="gaozhu.francis.mapper.AccountMapper.selectById" column="t_account_id" fetchType="lazy"/>
+    </resultMap>
+    <select id="selectTopicsWithAccount3" resultMap="topic_account_3">
+        SELECT
+            t_id, t_title, t_content, t_time, t_account_id
+        FROM t_topic;
+    </select>
+
+    <!--根据账户ID查询到对应的帖子-->
+    <resultMap id="topic" type="gaozhu.francis.pojo.Topic">
+        <id property="id" column="t_id"/>
+        <result property="title" column="t_title"/>
+        <result property="content" column="t_content"/>
+        <result property="time" column="t_time"/>
+    </resultMap>
+    <select id="selectByAccountId" resultMap="topic">
+        SELECT t_id, t_title, t_content, t_time, t_account_id FROM t_topic WHERE t_account_id = #{accountId}
+    </select>
+
+</mapper>

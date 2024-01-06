@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.AccountMapper">
+
+    <resultMap id="account" type="gaozhu.francis.pojo.Account">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="registerDate" column="register_date"/>
+    </resultMap>
+
+    <!--采用全局配置：将下划线规则自动转换为驼峰规则-->
+    <select id="selectAll1" resultType="gaozhu.francis.pojo.Account">
+        SELECT id, user_name, password, age, sex, phone, register_date
+        FROM account
+    </select>
+
+    <!--采取自定义别名的方式完成匹配-->
+    <select id="selectAll2" resultType="gaozhu.francis.pojo.Account">
+        SELECT
+            id AS id,
+            user_name AS userName,
+            password AS password,
+            age AS age,
+            sex AS sex,
+            phone AS phone,
+            register_date AS registerDate
+        FROM account
+    </select>
+
+    <!--采取自定义ResultMap的方式完成映射-->
+    <select id="selectAll3" resultMap="account">
+        SELECT id, user_name, password, age, sex, phone, register_date
+        FROM account
+    </select>
+
+
+</mapper>

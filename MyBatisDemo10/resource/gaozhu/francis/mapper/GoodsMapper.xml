@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.GoodsMapper">
+    <cache/>
+    <!--
+    cache的属性：
+    1. eviction：缓存回收策略
+        LRU（默认）：清除最长时间不使用的缓存。
+        FIFO：按照对象进入缓存的顺序来移除最早的。
+        SOFT：移除基于垃圾回收器状态和软引用规则的对象。
+        WEAK：相对于上一项，更加积极的进行回收。
+    2. flushInterval：刷新间隔，单位是毫秒。
+        默认是不设置，不按照时间进行刷新，仅仅在执行语句的时候进行刷新。
+        设置了之后会每过对应时间则刷新。
+    3. size：引用数目设置的就是缓存多少个对象。
+    4. readOnly：
+        true：只读缓存，给所有调用者返回缓存对象的相同实例，这能保证性能。
+        false（默认）：读写缓存，给调用者返回的是缓存对象的拷贝对象，这更安全单性能比只读慢。
+    5. type：指定缓存类型，在使第三方缓存来替代MyBatis二级缓存的时候使用。
+    -->
+
+    <resultMap id="Goods" type="gaozhu.francis.pojo.Goods">
+        <id property="id" column="g_id"/>
+        <result property="name" column="g_name"/>
+        <result property="price" column="g_price"/>
+        <result property="brand" column="g_brand"/>
+        <result property="productDate" column="g_product_date"/>
+        <result property="effTime" column="g_eff_time"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="Goods">
+        SELECT g_id, g_name, g_price, g_brand, g_product_date, g_eff_time
+        FROM t_goods
+    </select>
+
+</mapper>

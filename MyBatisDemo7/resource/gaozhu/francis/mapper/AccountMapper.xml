@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.AccountMapper">
+
+    <!--根据账户ID查询对应的账户信息，不包含帖子。-->
+    <resultMap id="account" type="gaozhu.francis.pojo.Account">
+        <id property="id" column="a_id"/>
+        <result property="userName" column="a_user_name"/>
+        <result property="password" column="a_password"/>
+        <result property="age" column="a_age"/>
+        <result property="sex" column="a_sex"/>
+        <result property="phone" column="a_phone"/>
+        <result property="registerDate" column="a_register_date"/>
+    </resultMap>
+    <select id="selectById" resultMap="account">
+        SELECT a_id, a_user_name, a_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_id = #{accountId}
+    </select>
+
+
+    <!--查询到所有的账户信息，并且同时获取到对应账户所发布的帖子信息。-->
+    <resultMap id="account_topics_1" type="gaozhu.francis.pojo.Account">
+        <id property="id" column="a_id"/>
+        <result property="userName" column="a_user_name"/>
+        <result property="password" column="a_password"/>
+        <result property="age" column="a_age"/>
+        <result property="sex" column="a_sex"/>
+        <result property="phone" column="a_phone"/>
+        <result property="registerDate" column="a_register_date"/>
+        <collection property="topics" ofType="gaozhu.francis.pojo.Topic">
+            <id property="id" column="t_id"/>
+            <result property="title" column="t_title"/>
+            <result property="content" column="t_content"/>
+            <result property="time" column="t_time"/>
+        </collection>
+    </resultMap>
+    <select id="selectAllWithTopics1" resultMap="account_topics_1">
+        SELECT
+            acc1.a_id, a_user_name, a_password, a_age, a_sex, a_phone, a_register_date,
+            top1.t_id, t_title, t_content, t_time, t_account_id
+        FROM t_account acc1
+        LEFT JOIN t_topic top1 ON acc1.a_id = top1.t_account_id
+    </select>
+
+    <!--获取所有的账户信息包含对应发帖信息，使用分步查询的方式完成。-->
+    <resultMap id="account_topics_2" type="gaozhu.francis.pojo.Account">
+        <id property="id" column="a_id"/>
+        <result property="userName" column="a_user_name"/>
+        <result property="password" column="a_password"/>
+        <result property="age" column="a_age"/>
+        <result property="sex" column="a_sex"/>
+        <result property="phone" column="a_phone"/>
+        <result property="registerDate" column="a_register_date"/>
+        <collection property="topics" column="a_id" select="gaozhu.francis.mapper.TopicMapper.selectByAccountId"/>
+    </resultMap>
+    <select id="selectAllWithTopics2" resultMap="account_topics_2">
+        SELECT a_id, a_user_name, a_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+    </select>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.AccountMapper">
+
+    <resultMap id="account" type="gaozhu.francis.pojo.Account">
+        <id column="a_id" property="id"/>
+        <result column="a_user_name" property="userName"/>
+        <result column="a_user_password" property="userPassword"/>
+        <result column="a_age" property="age"/>
+        <result column="a_sex" property="sex"/>
+        <result column="a_phone" property="phone"/>
+        <result column="a_register_date" property="registerDate"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_id = #{id}
+    </select>
+    <select id="selectAll" resultMap="account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+    </select>
+    <select id="selectCount" resultType="_int">
+        SELECT count(a_id)
+        FROM t_account
+    </select>
+    <select id="selectOneByIdMap" resultType="java.util.Map">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_id = #{id}
+    </select>
+    <select id="selectAllMap" resultType="java.util.Map">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+    </select>
+    <select id="selectAllMap2" resultType="java.util.Map">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+    </select>
+</mapper>

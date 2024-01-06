@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.AccountMapper">
+
+    <resultMap id="accountResultMap" type="gaozhu.francis.pojo.Account">
+        <id property="id" column="a_id"/>
+        <result property="userName" column="a_user_name"/>
+        <result property="userPassword" column="a_user_password"/>
+        <result property="age" column="a_age"/>
+        <result property="sex" column="a_sex"/>
+        <result property="phone" column="a_phone"/>
+        <result property="registerDate" column="a_register_date"/>
+    </resultMap>
+
+    <!--没有参数-->
+    <select id="selectAll" resultMap="accountResultMap">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+    </select>
+
+    <!--一个字面量参数-->
+    <select id="selectOneById" resultMap="accountResultMap">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_id = #{id}
+    </select>
+
+    <!--多个字面量参数-->
+    <select id="selectOneByUserNameAndUserPassword1" resultMap="accountResultMap">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_user_name = #{param1} AND a_user_password = #{param2}
+    </select>
+    <!--参数为一个Map集合-->
+    <select id="selectOneByUserNameAndUserPassword2" resultMap="accountResultMap">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_user_name = #{userName} AND a_user_password = #{password}
+    </select>
+    <!--参数为一个对象-->
+    <insert id="insertOne">
+        INSERT INTO t_account(A_USER_NAME, A_USER_PASSWORD, A_AGE, A_PHONE, A_REGISTER_DATE)
+        VALUES (#{userName}, #{userPassword}, #{age}, #{phone}, #{registerDate})
+    </insert>
+    <!--命名参数-->
+    <select id="selectOneByUserNameAndUserPassword3" resultMap="accountResultMap">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_user_name = #{userName} AND a_user_password = #{password}
+    </select>
+</mapper>

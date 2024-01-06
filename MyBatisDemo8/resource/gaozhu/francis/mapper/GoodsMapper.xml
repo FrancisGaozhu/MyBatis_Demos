@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.GoodsMapper">
+
+    <resultMap id="Goods" type="gaozhu.francis.pojo.Goods">
+        <id property="id" column="g_id"/>
+        <result property="name" column="g_name"/>
+        <result property="price" column="g_price"/>
+        <result property="brand" column="g_brand"/>
+        <result property="productDate" column="g_product_date"/>
+        <result property="effTime" column="g_eff_time"/>
+    </resultMap>
+
+    <sql id="allFields">g_id, g_name, g_price, g_brand, g_product_date, g_eff_time</sql>
+
+    <insert id="insertAll">
+        INSERT INTO t_goods(g_name, g_price, g_brand, g_product_date, g_eff_time)
+        VALUES
+            <foreach collection="goods" item="newGoods" separator=",">
+                (#{newGoods.name}, #{newGoods.price}, #{newGoods.brand}, #{newGoods.productDate}, #{newGoods.effTime})
+            </foreach>
+    </insert>
+
+    <select id="selectByCondition1" resultMap="Goods">
+        SELECT <include refid="allFields"/>
+        FROM t_goods
+        WHERE 1=1
+        <if test="model.id != null and model.id != ''">
+            AND g_id = #{model.id}
+        </if>
+        <if test="model.name != null and model.name != ''">
+            AND g_name = #{model.name}
+        </if>
+        <if test="model.brand != null and model.brand != ''">
+            AND g_brand = #{model.brand}
+        </if>
+    </select>
+
+
+    <select id="selectByCondition2" resultMap="Goods">
+        SELECT <include refid="allFields"/>
+        FROM t_goods
+        <where>
+            <if test="model.id != null and model.id != ''">
+                AND g_id = #{model.id}
+            </if>
+            <if test="model.name != null and model.name != ''">
+                AND g_name = #{model.name}
+            </if>
+            <if test="model.brand != null and model.brand != ''">
+                AND g_brand = #{model.brand}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectByCondition3" resultMap="Goods">
+        SELECT <include refid="allFields"/>
+        FROM t_goods
+        <trim prefix="WHERE" suffixOverrides="AND|OR">
+            <if test="model.id != null and model.id != ''">
+                g_id = #{model.id} AND
+            </if>
+            <if test="model.name != null and model.name != ''">
+                g_name = #{model.name} AND
+            </if>
+            <if test="model.brand != null and model.brand != ''">
+                g_brand = #{model.brand} AND
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectByCondition4" resultMap="Goods">
+        SELECT <include refid="allFields"/>
+        FROM t_goods
+        <where>
+            <choose>
+                <when test="model.id != null and model.id != ''">
+                    g_id = #{model.id}
+                </when>
+                <when test="model.name != null and model.name != ''">
+                    g_name = #{model.name}
+                </when>
+                <when test="model.brand != null and model.brand != ''">
+                    g_brand = #{model.brand}
+                </when>
+                <otherwise>
+                    g_price = 3.25
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="selectByIds1" resultMap="Goods">
+        SELECT <include refid="allFields"/>
+        FROM t_goods
+        <where>
+            <foreach collection="ids" item="id" separator="OR">
+                g_id = #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="selectByIds2" resultMap="Goods">
+        SELECT <include refid="allFields"/>
+        FROM t_goods
+        <where>
+            g_id IN
+            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+
+</mapper>

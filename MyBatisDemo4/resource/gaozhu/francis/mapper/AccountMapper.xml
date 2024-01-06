@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.AccountMapper">
+
+    <resultMap id="account" type="gaozhu.francis.pojo.Account">
+        <id property="id" column="a_id"/>
+        <result property="userName" column="a_user_name"/>
+        <result property="userPassword" column="a_user_password"/>
+        <result property="age" column="a_age"/>
+        <result property="sex" column="a_sex"/>
+        <result property="phone" column="a_phone"/>
+        <result property="registerDate" column="a_register_date"/>
+    </resultMap>
+
+    <select id="selectByPartOfName1" resultMap="account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_user_name LIKE '%${partOfName}%'
+    </select>
+
+    <select id="selectByPartOfName2" resultMap="account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_user_name LIKE CONCAT('%', #{partOfName}, '%')
+    </select>
+
+    <select id="selectByPartOfName3" resultMap="account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM t_account
+        WHERE a_user_name LIKE "%"#{partOfName}"%"
+    </select>
+    <select id="getNamesByIds" resultType="java.lang.String">
+        SELECT a_user_name
+        FROM t_account
+        WHERE a_id IN(${ids})
+    </select>
+    <select id="getAllDataFromTable" resultMap="account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
+        FROM ${tableName}
+    </select>
+</mapper>
