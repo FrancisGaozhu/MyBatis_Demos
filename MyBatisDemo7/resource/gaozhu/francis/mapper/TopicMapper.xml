@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="gaozhu.francis.mapper.TopicMapper">
 
+
+    <!--
+    使用联合查询完成关联数据的获取，其中涉及到其他表的字段信息和当前表的字段信息在同一个ResultMap中进行匹配。
+    -->
     <resultMap id="topic_account_1" type="gaozhu.francis.pojo.Topic">
         <id property="id" column="t_id"/>
         <result property="title" column="t_title"/>
@@ -31,6 +35,10 @@
         LEFT JOIN t_account acc1 ON top1.t_account_id = acc1.a_id;
     </select>
 
+    <!--
+    和上一个做法没有本质上的区别
+    但是对于关联表的数据使用了association标签进行匹配，这样的做法使得代码本身更加简洁。
+    -->
     <resultMap id="topic_account_2" type="gaozhu.francis.pojo.Topic">
         <id property="id" column="t_id"/>
         <result property="title" column="t_title"/>
@@ -62,6 +70,10 @@
         LEFT JOIN t_account acc1 ON top1.t_account_id = acc1.a_id;
     </select>
 
+
+    <!--
+
+    -->
     <resultMap id="topic_account_3" type="gaozhu.francis.pojo.Topic">
         <id property="id" column="t_id"/>
         <result property="title" column="t_title"/>
