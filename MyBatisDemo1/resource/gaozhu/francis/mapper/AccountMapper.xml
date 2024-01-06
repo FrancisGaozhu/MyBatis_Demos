@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gaozhu.francis.mapper.AccountMapper">
+
+    <!--执行数据添加操作-->
+    <insert id="insert">
+        INSERT INTO `t_account`(A_USER_NAME, A_USER_PASSWORD, A_AGE, A_PHONE, A_REGISTER_DATE)
+        VALUES('小明', '0000', 12, '17788888888', NOW())
+    </insert>
+
+    <!--执行数据更新操作-->
+    <update id="update">
+        UPDATE t_account
+        SET a_phone = '8888'
+        WHERE a_id = 1
+    </update>
+
+    <!--执行数据删除操作-->
+    <delete id="delete">
+        DELETE FROM t_account WHERE a_id = 3
+    </delete>
+
+    <!--
+    执行数据查找操作
+    请注意，在这里演示的查找操作中，实体类字段名和数据库字段名完全一致。
+    对于数据库字段名和实体类字段名不一致的情况在后续项目中会有示例。
+    -->
+    <select id="select" resultType="gaozhu.francis.pojo.Account">
+        SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date FROM t_account
+    </select>
+</mapper>
