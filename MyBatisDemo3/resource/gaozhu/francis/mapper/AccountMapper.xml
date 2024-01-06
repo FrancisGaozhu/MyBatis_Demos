@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="gaozhu.francis.mapper.AccountMapper">
 
+    <!--
+    这里我们定义了resultMap来解决数据库表字段名和实体类字段名不一致的对应匹配问题。
+    当然，处理这个问题并除了使用ResultMap以外还有其他的方式，
+    而ResultMap除了能解决字段匹配以外功能也不仅于此。
+
+    resultMap
+        id：当前resultMap的唯一名称。
+        type：结果集需要解析的实体类名称。
+
+    id & result
+        column：数据库字段名
+        property：对应此字段实体类字段名称（注意字段需要具备Setter属性）
+    -->
     <resultMap id="account" type="gaozhu.francis.pojo.Account">
         <id column="a_id" property="id"/>
         <result column="a_user_name" property="userName"/>
@@ -12,28 +25,58 @@
         <result column="a_register_date" property="registerDate"/>
     </resultMap>
 
+    <!--
+    因为此时数据库字段名和实体类字段名不一致，我们需要使用ResultMap进行对应匹配，所以需要使用resultMap来指定
+    使用对应的ResultMap，当然现在我们只有一个ResultMap，如果有多个的话，我们可以通过resultMap属性来指定其中的
+    一个。
+
+    resultType属性，只有当数据库字段名和表字段名一致（或者开启某些配置自动转换）的场景中才能使用。
+    -->
     <select id="selectById" resultMap="account">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_id = #{id}
     </select>
+
+    <!--
+    多条数据的获取和一条数据的获取在映射文件配置中并没有什么区别。
+    -->
     <select id="selectAll" resultMap="account">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
     </select>
+
+    <!--
+    获取标量值，则使用resultType设置对应的标量值即可，引用类型写全限定名称，
+    基本类型值有点特别，请留意MyBatis官方文档。
+    -->
     <select id="selectCount" resultType="_int">
         SELECT count(a_id)
         FROM t_account
     </select>
+
+    <!--
+    如果需要封装结果为Map则resultType属性指定为Map即可。
+    此时数据库表字段名作为Key，对应值作为Value。
+    -->
     <select id="selectOneByIdMap" resultType="java.util.Map">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_id = #{id}
     </select>
+
+    <!--
+    多条数据结果封装为Map和上面1条数据的操作在映射配置文件中并无区别。
+    -->
     <select id="selectAllMap" resultType="java.util.Map">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
     </select>
+
+    <!--
+    指定MapKey字段的在映射配置文件中也没有什么区别
+    但是Key为指定的字段值，value也是一个Map，在这个里层Map中数据库表字段名作为Key，值作为Value。
+    -->
     <select id="selectAllMap2" resultType="java.util.Map">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
