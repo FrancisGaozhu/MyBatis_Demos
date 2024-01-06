@@ -11,29 +11,53 @@
         <result property="phone" column="a_phone"/>
         <result property="registerDate" column="a_register_date"/>
     </resultMap>
+    <!--
+    学习这里的内容一定要事先搞清楚
+    ${}和#{}方式的不同
+    -->
 
+    <!--
+    在字符串标量值里是无法使用？占位符的。
+    例如 WHERE a_user_name LIKE '%?%'，这样做无法拼接。
+    所以需要使用$的形式。WHERE a_user_name LIKE '% + xxx + %'
+    -->
     <select id="selectByPartOfName1" resultMap="account">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_user_name LIKE '%${partOfName}%'
     </select>
 
+    <!--
+    如果为了避免SQL注入的风险，我们可以利用字符串的拼接函数，这样实现将被拼接的值部分分离出来，即可使用占位符的传递方式。
+    -->
     <select id="selectByPartOfName2" resultMap="account">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_user_name LIKE CONCAT('%', #{partOfName}, '%')
     </select>
 
+    <!--
+    MyBatis中支持使用双引号包裹通配符的方式，在实际执行的时候会被预编译解析为正常的SQL语句。
+    -->
     <select id="selectByPartOfName3" resultMap="account">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_user_name LIKE "%"#{partOfName}"%"
     </select>
+
+    <!--
+    需要注意，某些函数中是需要多个值的，占位符无法直接匹配多个值。
+    也只能使用直接拼接的方式。
+    -->
     <select id="getNamesByIds" resultType="java.lang.String">
         SELECT a_user_name
         FROM t_account
         WHERE a_id IN(${ids})
     </select>
+
+    <!--
+    这里所展示的是并非只有SQL中的条件值可以进行拼接，实际上任何的部分都能进行拼接处理。
+    -->
     <select id="getAllDataFromTable" resultMap="account">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM ${tableName}
