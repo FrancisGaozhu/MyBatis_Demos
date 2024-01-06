@@ -18,31 +18,49 @@
         FROM t_account
     </select>
 
-    <!--一个字面量参数-->
+    <!--
+    一个字面量参数
+        这种情况直接写匹配于接口方法形参参数名称即可
+    -->
     <select id="selectOneById" resultMap="accountResultMap">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_id = #{id}
     </select>
 
-    <!--多个字面量参数-->
+    <!--
+    多个字面量参数
+        两种方式(以2个参数为例，更多的参数则规则顺延)：
+        1. param1, param2, param3....
+        2. arg0, arg1, arg2...
+    -->
     <select id="selectOneByUserNameAndUserPassword1" resultMap="accountResultMap">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_user_name = #{param1} AND a_user_password = #{param2}
     </select>
-    <!--参数为一个Map集合-->
+    <!--
+    参数为一个Map集合
+        这种情况直接写Map中对应的Key即可。
+    -->
     <select id="selectOneByUserNameAndUserPassword2" resultMap="accountResultMap">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account
         WHERE a_user_name = #{userName} AND a_user_password = #{password}
     </select>
-    <!--参数为一个对象-->
+    <!--
+    参数为一个对象
+        参数如果为一个对象，那么对应字段可以直接写名称，注意字段名需要具备getter属性。
+    -->
     <insert id="insertOne">
         INSERT INTO t_account(A_USER_NAME, A_USER_PASSWORD, A_AGE, A_PHONE, A_REGISTER_DATE)
         VALUES (#{userName}, #{userPassword}, #{age}, #{phone}, #{registerDate})
     </insert>
-    <!--命名参数-->
+    <!--
+    命名参数
+        这是相对最容易掌握的一种方式，无论什么形式的参数，只要依次在抽象方法形参列表中使用注解依次命名。
+        在传递的时候直接传入自己命名的名称即可完成传值。
+    -->
     <select id="selectOneByUserNameAndUserPassword3" resultMap="accountResultMap">
         SELECT a_id, a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date
         FROM t_account

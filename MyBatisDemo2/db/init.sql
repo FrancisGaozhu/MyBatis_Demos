@@ -14,3 +14,7 @@ CREATE TABLE `t_account`(
     `a_register_date` DATETIME
 );
 
+INSERT INTO `t_account`(a_user_name, a_user_password, a_age, a_sex, a_phone, a_register_date)
+VALUES ('安琪拉', '0001', 15, '女', '18846457728', '3000-1-23'),
+       ('瑶', '0002', 16, '女', '18846457728', '3001-2-12'),
+       ('云中君', '0003', 20, '男', '18846457728', '2999-5-23');

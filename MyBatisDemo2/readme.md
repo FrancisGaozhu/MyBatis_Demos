@@ -7,3 +7,4 @@
   4. 传递Map集合：gaozhu.francis.demo.Demo4
   5. 传递一个对象：gaozhu.francis.demo.Demo5
   6. 通过命名参数：gaozhu.francis.demo.Demo6
+- 针对于参数传递原则的具体文字说明，我写在了映射AccountMapper.xml文件的注释中，所以请在阅读代码的同时关注AccountMapper.xml文件中的注释。
