@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="pagehelper-6.0.1-SNAPSHOT-standalone-javadoc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/pagehelper-6.0.1-SNAPSHOT-standalone.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/pagehelper-6.0.1-SNAPSHOT-standalone-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/pagehelper-6.0.1-SNAPSHOT-standalone-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

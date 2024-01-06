@@ -42,3 +42,15 @@ MyBatisDemo6
 MyBatisDemo7
 
 > 多对一关系的配置方式、一对多关系的配置方式、联合查询、分步查询、延迟加载
+
+MyBatisDemo8
+
+> 动态SQL的使用展示
+
+MyBatisDemo9
+
+> MyBatis一二级缓存
+
+MyBatis10
+
+> 使用PageHelper实现分页
