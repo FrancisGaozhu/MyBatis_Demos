@@ -12,7 +12,10 @@
         <result property="registerDate" column="register_date"/>
     </resultMap>
 
-    <!--采用全局配置：将下划线规则自动转换为驼峰规则-->
+    <!--
+    采用全局配置：将下划线规则自动转换为驼峰规则
+    全局配置在核心配置文件中设置
+    -->
     <select id="selectAll1" resultType="gaozhu.francis.pojo.Account">
         SELECT id, user_name, password, age, sex, phone, register_date
         FROM account

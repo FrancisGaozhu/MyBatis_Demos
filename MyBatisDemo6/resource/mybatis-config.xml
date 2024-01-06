@@ -9,6 +9,7 @@
 
     <!--MyBatis全局配置-->
     <settings>
+        <!--将数据库表字段名自动转换为Java中支持的驼峰命名法方式-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
